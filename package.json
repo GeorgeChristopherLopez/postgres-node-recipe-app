@@ -1,0 +1,17 @@
+{
+  "name": "recipebookdb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "author": "george lopez",
+  "license": "ISC",
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "express": "^4.17.1",
+    "pg": "^7.18.2",
+    "pug": "^2.0.4"
+  }
+}

@@ -1,0 +1,68 @@
+extends layout
+
+block content
+    h1 #{title}
+    br
+    button( type="button" class="btn btn-primary btn-block py-3" data-toggle="modal" data-target="#formModal") Launch demo modal
+    br
+    each recipe, i in recipes
+        div.well-container
+            h4= recipe.name
+                button(class="btn btn-primary float-right" type="button" data-toggle="collapse" data-target=`#${recipe.id}` aria-expanded="false" aria-controls=recipe.id)
+                    svg( class="bi bi-caret-down-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg")
+                        path(d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z")
+                div(class="collapse" id=recipe.id)
+           
+                    br
+                    p(class="font-weight-bold") Ingredients:
+                    p(class="font-weight-light")= recipe.ingredients
+                    p(class="font-weight-bold") Directions:
+                    p(class="font-weight-light")= recipe.directions
+                    button( class="edit-recipe btn btn-dark my-1 mx-3 px-4"  data-toggle="modal" data-target="#editFormModal" data-id=recipe.id data-name=recipe.name data-instructions=recipe.instructions data-directions=recipe.directions ) edit
+                    button( class="delete-recipe btn btn-danger" onclick=`deleteRecipe(${recipe.id})` )  delete
+                    
+    // Modal 
+    div(class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true")
+        div(class="modal-dialog" role="document")
+            div(class="modal-content")
+                form(method="post" action="/add")
+                    div(class="modal-header")
+                        h5(class="modal-title" id="exampleModalLabel") Add Recipe 
+                        button( type="button" class="close" data-dismiss="modal" aria-label="Close")
+                            span &times;
+                    div(class="modal-body")
+                        div(class="form-group")
+                            label Recipe Name
+                            input(type="text" class="form-control" name="name" id="name")
+                        div(class="form-group")
+                            label Ingredients
+                            textarea(class="form-control" name="ingredients" id="ingredients" type="text")
+                        div(class="form-group")
+                            label Directions
+                            textarea(class="form-control" name="directions" id="directions" type="text")
+                    div(class="modal-footer")
+                        button(type="button" class="btn btn-secondary" data-dismiss="modal") Close
+                        input(type="submit" class="btn btn-primary" value="Save")
+    // edit Modal 
+    div(class="modal fade" id="editFormModal" tabindex="-1" role="dialog" aria-labelledby="editFormModalLabel" aria-hidden="true")
+        div(class="modal-dialog" role="document")
+            div(class="modal-content")
+                form(method="post" action="/edit")
+                    input(type="hidden" id="edit-form-id" name="id" )
+                    div(class="modal-header")
+                        h5(class="modal-title" id="editFormModalLabel") EDIT RECIPE 
+                        button( type="button" class="close" data-dismiss="modal" aria-label="Close")
+                            span &times;
+                    div(class="modal-body")
+                        div(class="form-group")
+                            label Recipe Name
+                            input(type="text" class="form-control" name="name" id="edit-form-name")
+                        div(class="form-group")
+                            label Ingredients
+                            textarea(class="form-control" name="ingredients" id="edit-form-ingredients" type="text")
+                        div(class="form-group")
+                            label Directions
+                            textarea(class="form-control" name="directions" id="edit-form-directions" type="text")
+                    div(class="modal-footer")
+                        button(type="button" class="btn btn-secondary" data-dismiss="modal") Close
+                        input(type="submit" class="btn btn-primary" value="Save")    
